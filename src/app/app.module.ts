@@ -10,7 +10,7 @@ import { RentalModule } from './rental/rental.module';
 
 
 const routes: Routes = [
-  { path:"", redirectTo: '/rentals', pathMatch: 'full' }
+  { path: "", redirectTo: '/rentals', pathMatch: 'full' }
 ]
 
 @NgModule({

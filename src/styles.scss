@@ -5,6 +5,12 @@
 html, body, p {
   color: $main-text-color;
 }
+#rentalListing {
+  .bwn-card {
+    border: 1px solid;
+  }
+}
+
 
 .apartment {
 	color: #a72da3;
@@ -17,7 +23,6 @@ html, body, p {
 .house {
 	color: #bf1818;
 }
-
 
 .page-title {
   font-size: 30px;
@@ -114,4 +119,3 @@ html, body, p {
     }
   }
 }
-

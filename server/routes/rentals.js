@@ -9,14 +9,10 @@ router.get('/secret', UserCtrl.authMiddleware,function(req,res) {
 });
 
 router.get('', (req,res) => {
-    Rental.find({}, (err, foundRentals) => {
-        res.json(foundRentals);
-    });
-});
 
-router.get("/:id",(req,res)=> {
-    const rentalId = req.params.id;
-    Rental.findById(rentalId, (err, foundRental) => {
+    Rental.find({})
+    .select("-bookings")
+    .exec(function(err, foundRentals){
         if(err){
             res.status(422).send(
                 {errors: [{
@@ -24,9 +20,43 @@ router.get("/:id",(req,res)=> {
                     detail: 'Could not find Rental!'
                 }]});
                 return;
+        }else{
+            res.json(foundRentals);
         }
-        res.json(foundRental);
-    });
+    })
+
+    // Rental.find({}, (err, foundRentals) => {
+    //     return res.json(foundRentals);
+    // });
+});
+
+router.get("/:id",(req,res)=> {
+    const rentalId = req.params.id;
+    Rental.findById(rentalId)
+    .populate('user', 'username -_id')
+    .populate('bookings', 'startAt endAt -_id')
+    .exec(function(err,foundRental){
+        if(err){
+            return res.status(422).send(
+                {errors: [{
+                    title: 'Rental Error!',
+                    detail: 'Could not find Rental!'
+                }]});
+        }
+        return res.json(foundRental);
+    })
+
+    // Rental.findById(rentalId, (err, foundRental) => {
+    //     if(err){
+    //         res.status(422).send(
+    //             {errors: [{
+    //                 title: 'Rental Error!',
+    //                 detail: 'Could not find Rental!'
+    //             }]});
+    //             return;
+    //     }
+    //     res.json(foundRental);
+    // });
 });
 
 module.exports = router;
